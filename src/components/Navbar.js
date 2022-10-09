@@ -6,9 +6,9 @@ const Navbar = ({ onOpen }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   const navList = [
-    { name: 'About', link: '#intro' },
+    { name: 'About', link: '#about' },
     { name: 'Projects', link: '#projects' },
-    { name: 'Contact', link: '#blog' },
+    { name: 'Contact', link: '#contact' },
   ];
   return (
     <nav className=' flex justify-between transition-all duration-500 ease-in rounded'>
