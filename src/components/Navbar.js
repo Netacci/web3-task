@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
+// import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 const Navbar = ({ onOpen }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -34,6 +35,7 @@ const Navbar = ({ onOpen }) => {
             <a href={nav.link}>{nav.name}</a>
           </li>
         ))}
+        {/* <WalletMultiButton  /> */}
         <button
           type='button'
           className=' my-6 lg:my-0 bg-white text-primary-200 font-semibold py-2 px-6  items-center rounded-lg flex justify-center'
