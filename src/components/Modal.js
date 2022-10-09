@@ -17,7 +17,7 @@ const Modal = ({ onClose, open }) => {
             </div>
 
             <h3 className='text-center text-2xl font-semibold'>
-              Connect a wallet on <br /> Solana to continue
+              Choose Wallet to continue
             </h3>
             <Wallets />
           </div>
