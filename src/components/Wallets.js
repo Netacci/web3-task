@@ -10,8 +10,7 @@ const injected = new InjectedConnector({
 });
 
 const Wallets = () => {
-  const { active, account, library, connector, activate, deactivate } =
-    useWeb3React();
+  const { active, activate, deactivate } = useWeb3React();
 
   async function connect() {
     try {
