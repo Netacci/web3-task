@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Icon } from '@iconify/react';
 import PhantomLogo from '../assets/phantom.png';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { InjectedConnector } from '@web3-react/injected-connector';
-import { useWeb3React } from '@web3-react/core';
+import { useConnection } from '@solana/wallet-adapter-react';
+import { MetaMaskWalletContext } from '../context/MetaMaskWalletContext';
+import { PhantomWalletContext } from '../context/PhantomWalletContext';
 
-const injected = new InjectedConnector({
+export const injected = new InjectedConnector({
   supportedChainIds: [1, 3, 4, 5, 42],
 });
 
-const Wallets = () => {
-  const { active, activate, deactivate } = useWeb3React();
+const Wallets = ({ onClose }) => {
+  const { active, activate } = useContext(MetaMaskWalletContext);
+
+  const { connection } = useConnection();
+  console.log('connect', connection);
+
+  const wallet = useContext(PhantomWalletContext);
+  console.log('wallet >>', wallet);
 
   async function connect() {
     try {
@@ -20,32 +28,50 @@ const Wallets = () => {
     }
   }
 
-  async function disconnect() {
-    try {
-      await deactivate(injected);
-    } catch (ex) {
-      console.log(ex);
-    }
+  const handleMetamaskRedirect = () => {
+    connect();
+  };
+  if (active || wallet.connected) {
+    onClose();
   }
   const walletsList = [
     {
       name: 'Phantom',
       icon: <img src={PhantomLogo} alt='phantom logo' className='w-[30px]' />,
-      button: <WalletMultiButton />,
+      button: active ? (
+        <WalletMultiButton
+          disabled
+          className={`${
+            active ? '!cursor-not-allowed' : 'wallet-adapter-button'
+          }  `}
+        >
+          Connect
+        </WalletMultiButton>
+      ) : (
+        <WalletMultiButton>Connect</WalletMultiButton>
+      ),
     },
     {
       name: 'Metamask',
       icon: <Icon icon='logos:metamask-icon' className='text-2xl' />,
-      button: (
+      button: wallet.connected ? (
+        <button
+          disabled
+          className='cursor-not-allowed bg-[#8b5cf6] text-white py-3 px-5 rounded-xl'
+        >
+          Connect
+        </button>
+      ) : (
         <button
           className='bg-[#8b5cf6] text-white py-3 px-5 rounded-xl'
-          onClick={active ? disconnect : connect}
+          onClick={handleMetamaskRedirect}
         >
           {active ? 'Disconnect ' : 'Connect'}
         </button>
       ),
     },
   ];
+
   return (
     <>
       <div className='mt-8'>

@@ -19,7 +19,7 @@ const Modal = ({ onClose, open }) => {
             <h3 className='text-center text-2xl font-semibold'>
               Choose Wallet to continue
             </h3>
-            <Wallets />
+            <Wallets onClose={onClose} />
           </div>
         </div>
       ) : null}

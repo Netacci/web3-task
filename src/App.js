@@ -5,22 +5,12 @@ import {
 } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
-
 import '@solana/wallet-adapter-react-ui/styles.css';
-
 import Header from './components/Header';
 import { Web3ReactProvider } from '@web3-react/core';
 import Web3 from 'web3';
-
-const App = () => {
-  return (
-    <>
-      <Context>
-        <Header />
-      </Context>
-    </>
-  );
-};
+import { MetaMaskWalletProvider } from './context/MetaMaskWalletContext';
+import { PhantomWalletProvider } from './context/PhantomWalletContext';
 
 const Context = ({ children }) => {
   const endpoint = 'https://localhost:8899';
@@ -32,10 +22,24 @@ const Context = ({ children }) => {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <Web3ReactProvider getLibrary={getLibrary}>
-          <WalletModalProvider>{children}</WalletModalProvider>
+          <MetaMaskWalletProvider>
+            <PhantomWalletProvider>
+              <WalletModalProvider>{children}</WalletModalProvider>
+            </PhantomWalletProvider>
+          </MetaMaskWalletProvider>
         </Web3ReactProvider>
       </WalletProvider>
     </ConnectionProvider>
+  );
+};
+
+const App = () => {
+  return (
+    <>
+      <Context>
+        <Header />
+      </Context>
+    </>
   );
 };
 
