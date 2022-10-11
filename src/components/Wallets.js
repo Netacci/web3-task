@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Icon } from '@iconify/react';
 import PhantomLogo from '../assets/phantom.png';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';

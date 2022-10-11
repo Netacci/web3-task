@@ -10,7 +10,22 @@ const Navbar = ({ onOpen }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { account, active, deactivate } = useContext(MetaMaskWalletContext);
   const wallet = useContext(PhantomWalletContext);
-
+  const [phantomWalletAddress, setPhantomWalletAddress] = useState(null);
+  const checkIfWalletIsConnected = async () => {
+    if (window?.solana?.isPhantom) {
+      console.log('Phantom wallet found!');
+      const response = await window.solana.connect({ onlyIfTrusted: true });
+      console.log('Connected with Public Key:', response.publicKey.toString());
+      /*
+       * Set the user's publicKey in state to be used later!
+       */
+      setPhantomWalletAddress(response.publicKey.toString());
+    } else {
+      alert('Solana object not found! Get a Phantom Wallet 👻');
+    }
+  };
+  checkIfWalletIsConnected();
+  console.log(phantomWalletAddress);
   // const navList = [
   //   { name: 'About', link: '#about' },
   //   { name: 'Projects', link: '#projects' },
@@ -58,7 +73,11 @@ const Navbar = ({ onOpen }) => {
         ))} */}
 
         <h3 className='text-white font-semibold mr-4'>
-          {active ? `Wallet adddress : ${account}` : null}
+          {active
+            ? `Wallet address : ${account}`
+            : wallet.connected
+            ? `Wallet address: ${phantomWalletAddress}`
+            : null}
         </h3>
 
         {wallet.connected ? (
