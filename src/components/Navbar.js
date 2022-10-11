@@ -20,8 +20,6 @@ const Navbar = ({ onOpen }) => {
        * Set the user's publicKey in state to be used later!
        */
       setPhantomWalletAddress(response.publicKey.toString());
-    } else {
-      alert('Solana object not found! Get a Phantom Wallet 👻');
     }
   };
   checkIfWalletIsConnected();
